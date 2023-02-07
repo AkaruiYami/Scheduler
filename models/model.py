@@ -9,11 +9,20 @@ class Table:
         self.__headers = headers
         self.__dict__.update([header, []] for header in self.__headers)
 
+    @property
+    def row_number(self):
+        return len(max(self.values(), key=len))
+
+    @property
+    def column_number(self):
+        return len(self.__headers)
+
     def add_header(self, header, values=None):
         if values is None:
             values = []
         self.__headers.append(header)
         self.__dict__[header] = values
+        self._insert_default([header])
 
     def add_headers(self, headers, values=None):
         already_exist = set(headers).intersection(self.__headers)
@@ -34,9 +43,14 @@ class Table:
         for h, v in zip(headers, values):
             self.add_header(h, v)
 
-    def add_data(self, key, value):
-        assert key in self.__headers, "Key does not exist in headers"
-        self.__dict__[key].append(value)
+    def add_data(self, values):
+        if not isinstance(values, (list, tuple, set)):
+            raise ValueError("Value must be a list, tuple or set")
+        if len(values) != self.column_number:
+            raise ValueError("Values must have same lenght as headers")
+        
+        for key, value in zip(self.__headers, values):
+            self.__dict__[key].append(value)
 
     def extend(self, keys, values):
         if isinstance(keys, str):
@@ -65,7 +79,7 @@ class Table:
         return list(map(list, zip(*v)))
 
     def _insert_default(self, keys):
-        mx_row = len(max(self.values(), key=len))
+        mx_row = self.row_number
         for key in keys:
             to_add = mx_row - len(self.__dict__[key])
             self.__dict__[key].extend(["" for _ in range(to_add)])
@@ -77,9 +91,20 @@ class Table:
         return key in self.items()
 
     def __setitem__(self, key, value):
-        if key not in self.__headers:
+        idx = None
+        if isinstance(key, tuple):
+            header = key[0]
+            idx = key[1]
+        else:
+            header = key
+
+        if header not in self.__headers:
             raise KeyError("Key does not exist in headers")
-        self.__dict__[key] = value
+
+        if idx:
+            self.__dict__[header][idx] = value
+        else:
+            self.__dict__[header] = [value] * self.row_number
 
     def __getitem__(self, key):
         if isinstance(key, tuple):
@@ -91,10 +116,10 @@ class Table:
 
 
 if __name__ == "__main__":
-    a = Table(["A", "B", "C", "D", "E", "F"])
-    a.add_data("A", 12)
-    a.add_data("A", 25)
+    a = Table(["A", "B", "C"])
     a.extend(["B", "C"], [[1, 2], [3, 4]])
     a.extend(["B", "C"], [[12, 23], [34, 45]])
-    print(a.items())
-    print(a["B", 2])
+    a["A", 1] = "B"
+    print(a)
+    a.add_header("test", [1, 3])
+    print(a)

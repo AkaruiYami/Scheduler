@@ -9,7 +9,7 @@ class TimetableWindow(sg.Window):
         self.data = model.Table(self.headers)
         self.cell_size = (20, 1)
         self.data.extend(self.headers[1:], [["A"] * 8] * len(self.headers[1:]))
-        self.data["Time"] = ["1:00:00"] * 8
+        self.data["Time"] = "1:00:00"
         layout = self._create_layout()
         super().__init__(title, layout, **kwargs)
 
