@@ -35,11 +35,15 @@ class Table:
         assert key in self.__headers, "Key does not exist in headers"
         self.__dict__[key].append(value)
 
-    def update(self, keys, values):
+    def extend(self, keys, values):
+        if isinstance(keys, str):
+            keys = [keys]
         if len(keys) - len(values) != 0:
             raise ValueError("Keys and values must be the same length.")
         for key, value in zip(keys, values):
             self.__dict__[key].extend(value)
+        d = set(self.__headers).difference(keys)
+        self._insert_default(d)
 
     def get(self, key, default=None):
         return self.__dict__.get(key, default)
@@ -53,11 +57,26 @@ class Table:
     def values(self):
         return [self.__dict__[header] for header in self.__headers]
 
+    def t_values(self):
+        v = self.values()
+        return list(map(list, zip(*v)))
+
+    def _insert_default(self, keys):
+        mx_row = len(max(self.values(), key=len))
+        for key in keys:
+            to_add = mx_row - len(self.__dict__[key])
+            self.__dict__[key].extend(["" for _ in range(to_add)])
+
     def __iter__(self):
         return self.items()
 
     def __contains__(self, key):
         return key in self.items()
+
+    def __setitem__(self, key, value):
+        if key not in self.__headers:
+            raise KeyError("Key does not exist in headers")
+        self.__dict__[key] = value
 
     def __getitem__(self, key):
         return self.__dict__[key]
