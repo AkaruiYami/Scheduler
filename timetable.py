@@ -28,8 +28,7 @@ class TimetableWindow(sg.Window):
             [
                 sg.Text(
                     data,
-                    size=self.cell_size,
-                    justification="center",
+                    size=(self.cell_size[0], 3),
                     relief=sg.RELIEF_SUNKEN,
                 )
                 for data in row
