@@ -1,3 +1,6 @@
+from tkinter import W
+
+
 class Table:
     def __init__(self, headers=None):
         if headers is None:
@@ -79,6 +82,8 @@ class Table:
         self.__dict__[key] = value
 
     def __getitem__(self, key):
+        if isinstance(key, tuple):
+            return self.__dict__[key[0]][key[1]]
         return self.__dict__[key]
 
     def __str__(self):
@@ -89,6 +94,7 @@ if __name__ == "__main__":
     a = Table(["A", "B", "C", "D", "E", "F"])
     a.add_data("A", 12)
     a.add_data("A", 25)
-    a.update(["B", "C"], [[1, 2], [3, 4]])
-    a.update(["B", "C"], [[12, 23], [34, 45]])
+    a.extend(["B", "C"], [[1, 2], [3, 4]])
+    a.extend(["B", "C"], [[12, 23], [34, 45]])
     print(a.items())
+    print(a["B", 2])
