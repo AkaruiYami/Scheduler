@@ -4,16 +4,25 @@ from models import model
 
 
 class TimetableWindow(sg.Window):
-    def __init__(self, title, **kwargs):
+    def __init__(self, title, data=None, **kwargs):
         self.headers = ["Time", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
-        self.data = model.Table(self.headers)
+        if data is None:
+            self.data = model.Table(self.headers)
+            self.data.extend(self.headers[1:], [["A"] * 8] * len(self.headers[1:]))
+            self.data["Time"] = "1:00:00"
+            self.data["Monday"][1] = ""
+            self.data.update("Tuesday", [""] * 3)
+        else:
+            self.data = data
         self.cell_size = (20, 1)
-        self.data.extend(self.headers[1:], [["A"] * 8] * len(self.headers[1:]))
-        self.data["Time"] = "1:00:00"
-        self.data["Monday"][1] = ""
-        self.data.update("Tuesday", [""] * 3)
         layout = self._create_layout()
         super().__init__(title, layout, **kwargs)
+
+    def _create_ribbon(self):
+        ribbon_bar = [sg.Push()]
+        add_button = sg.Button("Add", auto_size_button=False, size=(9, 1), key="-ADD_BUTTON-")
+        ribbon_bar.append(add_button)
+        return ribbon_bar
 
     def _create_layout(self):
         layout = []
@@ -35,6 +44,7 @@ class TimetableWindow(sg.Window):
             for row in self.data.t_values()
         ]
 
+        layout.append(self._create_ribbon())
         layout.append(header_row)
         layout.extend(data_row)
         return layout

@@ -52,6 +52,7 @@ class Table:
     def extend(self, keys, values):
         if isinstance(keys, str):
             keys = [keys]
+            values = [values]
         if len(keys) - len(values) != 0:
             raise ValueError("Keys and values must be the same length.")
         for key, value in zip(keys, values):

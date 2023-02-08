@@ -13,8 +13,6 @@ class Window(sg.Window):
             "Wednesday",
             "Thursday",
             "Friday",
-            "Saturday",
-            "Sunday",
         ]
         layout = [
             [Window.create_label_input("Title")],
