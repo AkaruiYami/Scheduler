@@ -1,6 +1,3 @@
-from tkinter import W
-
-
 class Table:
     def __init__(self, headers=None):
         if headers is None:
@@ -61,6 +58,16 @@ class Table:
             self.__dict__[key].extend(value)
         d = set(self.__headers).difference(keys)
         self._insert_default(d)
+
+    def update(self, key, datas, start=None):
+        n_data = len(datas)
+        if start is None:
+            start = 0
+        if n_data + start > self.row_number:
+            raise ValueError("Exceeding the total number of row")
+
+        for i, data in enumerate(datas, start=start):
+            self.__dict__[key][i] = data
 
     def get(self, key, default=None):
         return self.__dict__.get(key, default)
