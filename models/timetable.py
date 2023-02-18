@@ -1,8 +1,5 @@
 import datetime
 
-import PySimpleGUI as sg
-
-
 class Timetable:
     def __init__(
         self,
@@ -38,9 +35,21 @@ class Timetable:
         self.__table = {}
         self._init_empty_table()
 
+    def update_content(self, day: str, time: str, content: str):
+        """Update Content for the spicified day and time.
+
+        Args:
+            day (str): The day name string such as "Monday".
+            time (str): Time string that has the same format as the the one shown in the timetable. Can use self.time_format to see the format. Default format is "%I:%M%p".
+            content (str): The actual content will be put into the sg.Text object in the timetable.
+        """
+        assert day in self.days, f"{day} is not a valid day"
+        assert time in self.time_frame, f"{time} is not a valid time"
+        self.__table[day][time] = content
+
     def _init_empty_table(self):
         for day in self.days:
-            _column = {t: sg.T("") for t in self.time_frame}
+            _column = {t: "" for t in self.time_frame}
             self.__table[day] = _column
 
     def __getitem__(self, key):
@@ -49,12 +58,7 @@ class Timetable:
                 kday, ktime = key
             else:
                 ktime, kday = key
-            return self.__table[kday][ktime].get()
+            return self.__table[kday][ktime]
         if key in self.time_frame:
-            return {day: content[key].get() for day, content in self.__table.items()}
-        return {time: content.get() for time, content in self.__table[key].items()}
-
-
-t = Timetable("07:00AM", "06:00PM", 60)
-print(t.days)
-print(t["Monday", "07:00AM"])
+            return {day: content[key] for day, content in self.__table.items()}
+        return {time: content for time, content in self.__table[key].items()}
