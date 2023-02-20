@@ -1,4 +1,6 @@
 import datetime
+import PySimpleGUI as sg
+
 
 class Timetable:
     def __init__(
@@ -35,7 +37,7 @@ class Timetable:
         self.__table = {}
         self._init_empty_table()
 
-    def update_content(self, day: str, time: str, content: str):
+    def update_content(self, day: str, time: str, content: str, color: str):
         """Update Content for the spicified day and time.
 
         Args:
@@ -45,11 +47,14 @@ class Timetable:
         """
         assert day in self.days, f"{day} is not a valid day"
         assert time in self.time_frame, f"{time} is not a valid time"
-        self.__table[day][time] = content
+        self.__table[day][time].update(content, background_color=color)
 
     def _init_empty_table(self):
         for day in self.days:
-            _column = {t: "" for t in self.time_frame}
+            _column = {
+                t: sg.Text("", relief=sg.RELIEF_SUNKEN, expand_x=True, size=(15, 3))
+                for t in self.time_frame
+            }
             self.__table[day] = _column
 
     def __getitem__(self, key):
