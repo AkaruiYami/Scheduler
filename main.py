@@ -1,6 +1,7 @@
 import PySimpleGUI as sg
 
 import models
+import add_content_window as acw
 
 timetable = models.Timetable("07:00AM", "06:00PM", 60)
 
@@ -40,4 +41,8 @@ while True:
     event, values = window.read()
     if event == sg.WIN_CLOSED:
         break
+
+    if event == "-ADD_BUTTON-":
+        add_window = acw.create_window("Add New Schedule")
+        acw_event, acw_values = add_window.read()
 window.close()
