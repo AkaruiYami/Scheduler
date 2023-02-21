@@ -1,6 +1,8 @@
+import datetime
 import PySimpleGUI as sg
 
 import models
+import ccolors
 
 timetable = models.Timetable("07:00AM", "06:00PM", 60)
 
@@ -45,6 +47,7 @@ def create_window(title):
         _text_input("Description", size=label_size),
         _element_selector("Day", timetable.days, size=label_size),
         _element_selector("Time", timetable.time_frame, size=label_size),
+        _element_selector("Duration", tuple(range(1, 10)), size=label_size),
         [
             sg.Push(),
             sg.Button("Cancel", key=lkey("Cancel")),
@@ -81,6 +84,7 @@ def lkey(label):
     return f'-{label.upper().replace(" ", "_")}-'
 
 
+color = ccolors.get_color()
 while True:
     event, values = window.read()
     if event == sg.WIN_CLOSED:
@@ -93,5 +97,10 @@ while True:
             day = acw_values["-DAY-"]
             time = acw_values["-TIME-"]
             content = f'{acw_values["-TITLE-"]}\n{acw_values["-DESCRIPTION-"]}'
-            timetable.update_content(day, time, content, "#0000a0")
+            bg, fg = next(color)
+            for i in range(acw_values["-DURATION-"]):
+                _time = datetime.datetime.strptime(time, timetable.time_format)
+                _dtime = datetime.timedelta(hours=i)
+                actual_time = (_time + _dtime).strftime(timetable.time_format)
+                timetable.update_content(day, actual_time, content, bg, fg)
 window.close()

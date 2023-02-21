@@ -37,7 +37,9 @@ class Timetable:
         self.__table = {}
         self._init_empty_table()
 
-    def update_content(self, day: str, time: str, content: str, color: str):
+    def update_content(
+        self, day: str, time: str, content: str, bg_color: str, fg_color: str = None
+    ):
         """Update Content for the spicified day and time.
 
         Args:
@@ -47,7 +49,9 @@ class Timetable:
         """
         assert day in self.days, f"{day} is not a valid day"
         assert time in self.time_frame, f"{time} is not a valid time"
-        self.__table[day][time].update(content, background_color=color)
+        self.__table[day][time].update(
+            content, background_color=bg_color, text_color=fg_color
+        )
 
     def _init_empty_table(self):
         for day in self.days:
