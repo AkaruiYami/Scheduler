@@ -1,4 +1,4 @@
 Todo:
-[] Delete Existing Schedule
-[] Edit Existing Schedule
+[/] Delete Existing Schedule
+[/] Edit Existing Schedule
 
