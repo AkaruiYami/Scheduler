@@ -1,8 +1,12 @@
 import datetime
 import PySimpleGUI as sg
 
+from .content import Content
+
 
 class Timetable:
+    CELL_SIZE = (15, 3)
+
     def __init__(
         self,
         start_time: str,
@@ -38,7 +42,7 @@ class Timetable:
         self._init_empty_table()
 
     def update_content(
-        self, day: str, time: str, content: str, bg_color: str, fg_color: str = None
+        self, day: str, time: str, content: Content, bg_color: str, fg_color: str = None
     ):
         """Update Content for the spicified day and time.
 
@@ -50,13 +54,28 @@ class Timetable:
         assert day in self.days, f"{day} is not a valid day"
         assert time in self.time_frame, f"{time} is not a valid time"
         self.__table[day][time].update(
-            content, background_color=bg_color, text_color=fg_color
+            content.get(), background_color=bg_color, text_color=fg_color
         )
+        self.__table[day][time].bind("<Button-3>", "+EDIT+")
+
+    def delete_content(self, day: str, time: str):
+        self.__table[day][time].update(
+            "",
+            background_color=sg.DEFAULT_BACKGROUND_COLOR,
+            text_color=sg.DEFAULT_TEXT_COLOR,
+        )
+        self.__table[day][time].unbind("<Button-3>")
 
     def _init_empty_table(self):
         for day in self.days:
             _column = {
-                t: sg.Text("", relief=sg.RELIEF_SUNKEN, expand_x=True, size=(15, 3))
+                t: sg.Text(
+                    "",
+                    relief=sg.RELIEF_SUNKEN,
+                    expand_x=True,
+                    size=self.CELL_SIZE,
+                    key=day + "," + t,
+                )
                 for t in self.time_frame
             }
             self.__table[day] = _column
