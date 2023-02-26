@@ -1,9 +1,14 @@
+import os
+import sys
+import pickle
 import datetime
 import PySimpleGUI as sg
 
 import models
 import ccolors
 
+ROOT_DIR = os.path.dirname(sys.argv[0])
+DATA_DIR = os.path.join(ROOT_DIR, "data")
 timetable = models.Timetable("07:00AM", "06:00PM", 60)
 
 
@@ -24,6 +29,9 @@ def content_cell(txt):
 
 
 def create_timetable_layout():
+    saves = [f for f in os.listdir(DATA_DIR) if (f.endswith(".pkl") and "TABLE_" in f)]
+    if saves:
+        load_timetable(saves[0])
     layout = [[header_cell(txt) for txt in ["Time"] + timetable.days]]
     for time in timetable.time_frame:
         layout.append([header_cell(time)] + [ctx for ctx in timetable[time].values()])
@@ -31,10 +39,32 @@ def create_timetable_layout():
 
 
 def create_main_layout():
-    layout = [[sg.Push(), sg.Button("Add", key="-ADD_BUTTON-", size=10)]]
+    layout = [
+        [
+            sg.Push(),
+            sg.Button("Add", key="-ADD_BUTTON-", size=10),
+            sg.Button("Save", key="-SAVE_BUTTON-", size=10),
+        ]
+    ]
     timetable_layout = create_timetable_layout()
     layout.append(timetable_layout)
     return layout
+
+
+def save_timetable(name):
+    if not name.endswith(".pkl"):
+        name = name + ".pkl"
+    name = f"TABLE_{name}"
+    with open(os.path.join(DATA_DIR, name), "wb") as f:
+        pickle.dump(timetable.get_raw_data(), f, protocol=pickle.HIGHEST_PROTOCOL)
+
+
+def load_timetable(name):
+    if not name.endswith(".pkl"):
+        name = name + ".pkl"
+    with open(os.path.join(DATA_DIR, name), "rb") as f:
+        table = pickle.load(f)
+        timetable.load(table)
 
 
 window = sg.Window("Scheduler", layout=create_main_layout())
@@ -120,6 +150,10 @@ while True:
                 _dtime = datetime.timedelta(hours=i)
                 actual_time = (_time + _dtime).strftime(timetable.time_format)
                 timetable.update_content(day, actual_time, content, bg, fg)
+    elif event == "-SAVE_BUTTON-":
+        name = sg.popup_get_text("Name", "Save Timetable")
+        save_timetable(name)
+
     if str(event).endswith("+EDIT+"):
         event = event.rstrip("+EDIT+")
         day, time = event.split(",")
@@ -133,7 +167,6 @@ while True:
             d_time=time,
             edit=True,
         ).read(close=True)
-        print(edw_event, edw_values)
         if edw_event == "-CONFIRM-":
             new_day = edw_values["-DAY-"]
             new_time = edw_values["-TIME-"]

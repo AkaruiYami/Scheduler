@@ -1,7 +1,12 @@
+import sys
 import datetime
 import PySimpleGUI as sg
 
 from .content import Content
+
+sys.path.append("..")
+
+import ccolors
 
 
 class Timetable:
@@ -65,6 +70,31 @@ class Timetable:
             text_color=sg.DEFAULT_TEXT_COLOR,
         )
         self.__table[day][time].unbind("<Button-3>")
+
+    def get_raw_data(self) -> dict[dict[str]]:
+        raw = {}
+        for day, time_frame in self.__table.items():
+            raw_content = {time: content.get() for time, content in time_frame.items()}
+            raw[day] = raw_content
+        return raw
+
+    def load(self, table: dict[dict[str]]):
+        colors = ccolors.get_color()
+        color_map = {"": (sg.DEFAULT_BACKGROUND_COLOR, sg.DEFAULT_TEXT_COLOR)}
+        for day in self.days:
+            for time in self.time_frame:
+                content = table[day][time]
+                if content != "" and content not in color_map:
+                    color_map[content] = next(colors)
+                self.__table[day][time] = sg.Text(
+                    content,
+                    relief=sg.RELIEF_SUNKEN,
+                    expand_x=True,
+                    size=self.CELL_SIZE,
+                    key=day + "," + time,
+                    background_color=color_map[content][0],
+                    text_color=color_map[content][1],
+                )
 
     def _init_empty_table(self):
         for day in self.days:

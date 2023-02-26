@@ -47,7 +47,7 @@ def get_color(idx=0):
     _colors = list(COLORS)
     random.shuffle(_colors)
     while True:
-        bg_color = COLORS[current_color]
+        bg_color = _colors[current_color]
         brightness = perceived_brightness(bg_color)
         yield bg_color, get_fg_color(brightness)
         current_color = (current_color + 1) % max_color
