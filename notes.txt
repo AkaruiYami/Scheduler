@@ -1,4 +1,6 @@
 Todo:
+[] Fix bugs: Can't right click loaded content:
+		- bind the loaded content
 [/] Delete Existing Schedule
 [/] Edit Existing Schedule
 
