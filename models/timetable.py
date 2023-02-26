@@ -78,7 +78,7 @@ class Timetable:
             raw[day] = raw_content
         return raw
 
-    def load(self, table: dict[dict[str]]):
+    def reload(self, table: dict[dict[str]]):
         colors = ccolors.get_color()
         color_map = {"": (sg.DEFAULT_BACKGROUND_COLOR, sg.DEFAULT_TEXT_COLOR)}
         for day in self.days:
@@ -95,6 +95,17 @@ class Timetable:
                     background_color=color_map[content][0],
                     text_color=color_map[content][1],
                 )
+
+    def load(self, table: dict[dict[str]]):
+        colors = ccolors.get_color()
+        color_map = {"": (sg.DEFAULT_BACKGROUND_COLOR, sg.DEFAULT_TEXT_COLOR)}
+        for day in self.days:
+            for time in self.time_frame:
+                content = table[day][time]
+                if content != "" and content not in color_map:
+                    color_map[content] = next(colors)
+                new_content = Content(*content.split("\n"))
+                self.update_content(day, time, new_content, color_map[content][0], color_map[content][1]) 
 
     def _init_empty_table(self):
         for day in self.days:

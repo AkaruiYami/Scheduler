@@ -29,9 +29,6 @@ def content_cell(txt):
 
 
 def create_timetable_layout():
-    saves = [f for f in os.listdir(DATA_DIR) if (f.endswith(".pkl") and "TABLE_" in f)]
-    if saves:
-        load_timetable(saves[0])
     layout = [[header_cell(txt) for txt in ["Time"] + timetable.days]]
     for time in timetable.time_frame:
         layout.append([header_cell(time)] + [ctx for ctx in timetable[time].values()])
@@ -67,8 +64,11 @@ def load_timetable(name):
         timetable.load(table)
 
 
-window = sg.Window("Scheduler", layout=create_main_layout())
+window = sg.Window("Scheduler", layout=create_main_layout(), finalize=True)
 
+saves = [f for f in os.listdir(DATA_DIR) if (f.endswith(".pkl") and "TABLE_" in f)]
+if saves:
+    load_timetable(saves[0])
 
 def create_window(
     title, d_title="", d_desc="", d_day=0, d_time=0, d_duration=0, edit=False
