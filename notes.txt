@@ -1,4 +1,6 @@
 Todo:
+[] Make it so it is possible to load different table
+[] Default load table is the previous closed (Optional: Empty table as default)
 [/] Fix bugs: Can't right click loaded content:
 		- bind the loaded content
 [/] Delete Existing Schedule
