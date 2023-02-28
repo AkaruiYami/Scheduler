@@ -47,7 +47,13 @@ class Timetable:
         self._init_empty_table()
 
     def update_content(
-        self, day: str, time: str, content: Content, bg_color: str, fg_color: str = None
+        self,
+        day: str,
+        time: str,
+        content: Content,
+        bg_color: str,
+        fg_color: str = None,
+        enable_right_click=True,
     ):
         """Update Content for the spicified day and time.
 
@@ -61,7 +67,8 @@ class Timetable:
         self.__table[day][time].update(
             content.get(), background_color=bg_color, text_color=fg_color
         )
-        self.__table[day][time].bind("<Button-3>", "+EDIT+")
+        if enable_right_click:
+            self.__table[day][time].bind("<Button-3>", "+EDIT+")
 
     def delete_content(self, day: str, time: str):
         self.__table[day][time].update(
@@ -105,7 +112,14 @@ class Timetable:
                 if content != "" and content not in color_map:
                     color_map[content] = next(colors)
                 new_content = Content(*content.split("\n"))
-                self.update_content(day, time, new_content, color_map[content][0], color_map[content][1]) 
+                self.update_content(
+                    day,
+                    time,
+                    new_content,
+                    color_map[content][0],
+                    color_map[content][1],
+                    content != "",
+                )
 
     def _init_empty_table(self):
         for day in self.days:
