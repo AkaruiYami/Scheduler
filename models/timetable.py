@@ -104,21 +104,22 @@ class Timetable:
                 )
 
     def load(self, table: dict[dict[str]]):
+        DEFAULT_COLOR = (sg.DEFAULT_BACKGROUND_COLOR, sg.DEFAULT_TEXT_COLOR)
         colors = ccolors.get_color()
-        color_map = {"": (sg.DEFAULT_BACKGROUND_COLOR, sg.DEFAULT_TEXT_COLOR)}
+        color_map = {}
         for day in self.days:
             for time in self.time_frame:
                 content = table[day][time]
-                if content != "" and content not in color_map:
-                    color_map[content] = next(colors)
                 new_content = Content(*content.split("\n"))
+                if (not new_content.is_empty) and content not in color_map:
+                    color_map[content] = next(colors)
                 self.update_content(
                     day,
                     time,
                     new_content,
-                    color_map[content][0],
-                    color_map[content][1],
-                    content != "",
+                    color_map.get(content, DEFAULT_COLOR)[0],
+                    color_map.get(content, DEFAULT_COLOR)[1],
+                    enable_right_click=not new_content.is_empty,
                 )
 
     def _init_empty_table(self):

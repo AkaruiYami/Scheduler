@@ -35,9 +35,30 @@ def create_timetable_layout():
     return layout
 
 
+def get_profile(idx=None, with_prefix=True, with_extension=True):
+    saves = []
+    for f in os.listdir(DATA_DIR):
+        if f.endswith(".pkl") and "TABLE_" in f:
+            if with_prefix == False:
+                f = f.removeprefix("TABLE_")
+            if with_extension == False:
+                f = f.removesuffix(".pkl")
+            saves.append(f)
+    return saves[idx] if idx else saves
+
+
 def create_main_layout():
+    save_files = get_profile(with_prefix=False, with_extension=False)
     layout = [
         [
+            sg.Combo(
+                save_files,
+                save_files[0],
+                size=25,
+                readonly=True,
+                enable_events=True,
+                key="-PROFILE-",
+            ),
             sg.Push(),
             sg.Button("Add", key="-ADD_BUTTON-", size=10),
             sg.Button("Save", key="-SAVE_BUTTON-", size=10),
@@ -49,9 +70,7 @@ def create_main_layout():
 
 
 def save_timetable(name):
-    if not name.endswith(".pkl"):
-        name = name + ".pkl"
-    name = f"TABLE_{name}"
+    name = filename_to_savename(name)
     with open(os.path.join(DATA_DIR, name), "wb") as f:
         pickle.dump(timetable.get_raw_data(), f, protocol=pickle.HIGHEST_PROTOCOL)
 
@@ -64,11 +83,20 @@ def load_timetable(name):
         timetable.load(table)
 
 
+def filename_to_savename(name):
+    if not name.startswith("TABLE_"):
+        name = "TABLE_" + name
+    if not name.endswith(".pkl"):
+        name = name + ".pkl"
+    return name
+
+
 window = sg.Window("Scheduler", layout=create_main_layout(), finalize=True)
 
-saves = [f for f in os.listdir(DATA_DIR) if (f.endswith(".pkl") and "TABLE_" in f)]
+saves = get_profile()
 if saves:
     load_timetable(saves[0])
+
 
 def create_window(
     title, d_title="", d_desc="", d_day=0, d_time=0, d_duration=0, edit=False
@@ -153,6 +181,11 @@ while True:
     elif event == "-SAVE_BUTTON-":
         name = sg.popup_get_text("Name", "Save Timetable")
         save_timetable(name)
+        updated_files = get_profile(with_prefix=False, with_extension=False)
+        window["-PROFILE-"].update(values=updated_files, value=name)
+    elif event == "-PROFILE-":
+        filename = filename_to_savename(values["-PROFILE-"])
+        load_timetable(filename)
 
     if str(event).endswith("+EDIT+"):
         event = event.rstrip("+EDIT+")
