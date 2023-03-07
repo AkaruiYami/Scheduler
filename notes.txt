@@ -1,5 +1,5 @@
 Todo:
-[] Delete created table
+[/] Delete created table
 [/] Make it so it is possible to load different table
 [/] Default load table is the previous closed (Optional: Empty table as default)
 [/] Fix bugs: Can't right click loaded content:

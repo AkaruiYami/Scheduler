@@ -47,6 +47,12 @@ def get_profile(idx=None, with_prefix=True, with_extension=True):
     return saves[idx] if idx else saves
 
 
+def remove_profile(name):
+    name = filename_to_savename(name)
+    target = os.path.join(DATA_DIR, name)
+    if os.path.exists(target):
+        os.remove(target)
+
 def create_main_layout():
     save_files = get_profile(with_prefix=False, with_extension=False)
     layout = [
@@ -62,6 +68,7 @@ def create_main_layout():
             sg.Push(),
             sg.Button("Add", key="-ADD_BUTTON-", size=10),
             sg.Button("Save", key="-SAVE_BUTTON-", size=10),
+            sg.Button("D", key="-DELETE_BUTTON-", button_color="#fe0232", size=3),
         ]
     ]
     timetable_layout = create_timetable_layout()
@@ -183,6 +190,15 @@ while True:
         save_timetable(name)
         updated_files = get_profile(with_prefix=False, with_extension=False)
         window["-PROFILE-"].update(values=updated_files, value=name)
+    elif event == "-DELETE_BUTTON-":
+        result = sg.popup_ok_cancel("Are you sure you want to delete this timetable?")
+        if result == "OK":
+            files = get_profile(with_prefix=False, with_extension=False)
+            current_profile = window["-PROFILE-"].get()
+            files.remove(current_profile)
+            window["-PROFILE-"].update(values=files)
+            timetable.clear()
+            remove_profile(current_profile)
     elif event == "-PROFILE-":
         filename = filename_to_savename(values["-PROFILE-"])
         load_timetable(filename)

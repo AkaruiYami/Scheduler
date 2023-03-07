@@ -44,6 +44,7 @@ class Timetable:
             for i in range(self.interval)
         ]
         self.__table = {}
+        self.__filled_cells = []
         self._init_empty_table()
 
     def update_content(
@@ -69,6 +70,7 @@ class Timetable:
         )
         if enable_right_click:
             self.__table[day][time].bind("<Button-3>", "+EDIT+")
+            self.__filled_cells.append((day, time))
 
     def delete_content(self, day: str, time: str):
         self.__table[day][time].update(
@@ -77,6 +79,7 @@ class Timetable:
             text_color=sg.DEFAULT_TEXT_COLOR,
         )
         self.__table[day][time].unbind("<Button-3>")
+        self.__filled_cells.remove((day, time))
 
     def get_raw_data(self) -> dict[dict[str]]:
         raw = {}
@@ -104,6 +107,7 @@ class Timetable:
                 )
 
     def load(self, table: dict[dict[str]]):
+        self.clear()
         DEFAULT_COLOR = (sg.DEFAULT_BACKGROUND_COLOR, sg.DEFAULT_TEXT_COLOR)
         colors = ccolors.get_color()
         color_map = {}
@@ -121,6 +125,11 @@ class Timetable:
                     color_map.get(content, DEFAULT_COLOR)[1],
                     enable_right_click=not new_content.is_empty,
                 )
+
+    def clear(self):
+        old_contents = self.__filled_cells.copy()
+        for day, time in old_contents:
+            self.delete_content(day, time)
 
     def _init_empty_table(self):
         for day in self.days:
