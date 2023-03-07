@@ -37,6 +37,8 @@ def create_timetable_layout():
 
 def get_profile(idx=None, with_prefix=True, with_extension=True):
     saves = []
+    if not os.path.exists(DATA_DIR):
+        os.makedirs(DATA_DIR)
     for f in os.listdir(DATA_DIR):
         if f.endswith(".pkl") and "TABLE_" in f:
             if with_prefix == False:
@@ -53,13 +55,15 @@ def remove_profile(name):
     if os.path.exists(target):
         os.remove(target)
 
+
 def create_main_layout():
     save_files = get_profile(with_prefix=False, with_extension=False)
+    current_file = save_files[0] if save_files else None
     layout = [
         [
             sg.Combo(
                 save_files,
-                save_files[0],
+                current_file,
                 size=25,
                 readonly=True,
                 enable_events=True,
