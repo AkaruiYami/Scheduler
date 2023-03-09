@@ -191,9 +191,10 @@ while True:
                 timetable.update_content(day, actual_time, content, bg, fg)
     elif event == "-SAVE_BUTTON-":
         name = sg.popup_get_text("Name", "Save Timetable")
-        save_timetable(name)
-        updated_files = get_profile(with_prefix=False, with_extension=False)
-        window["-PROFILE-"].update(values=updated_files, value=name)
+        if name:
+            save_timetable(name)
+            updated_files = get_profile(with_prefix=False, with_extension=False)
+            window["-PROFILE-"].update(values=updated_files, value=name)
     elif event == "-DELETE_BUTTON-":
         result = sg.popup_ok_cancel("Are you sure you want to delete this timetable?")
         if result == "OK":
