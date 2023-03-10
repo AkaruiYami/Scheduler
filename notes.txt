@@ -1,4 +1,7 @@
 Todo:
+[] Implement ability to manage timetable scheme:
+	[] Add/remove column
+	[] Add/remove row
 [/] Delete created table
 [/] Make it so it is possible to load different table
 [/] Default load table is the previous closed (Optional: Empty table as default)
