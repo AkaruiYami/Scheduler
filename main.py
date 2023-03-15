@@ -103,6 +103,14 @@ while True:
             window["-PROFILE-"].update(values=files)
             timetable.clear()
             remove_profile(current_profile)
+    elif event == "-SS_BUTTON-":
+        ss_dir = os.path.join(ROOT_DIR, "screenshots")
+        fmt = "%d%m%Y-%H%M%S"
+        today = datetime.datetime.today().strftime(fmt)
+        filename = os.path.join(ss_dir, f"{values['-PROFILE-']}-{today}.png")
+        if not os.path.exists(ss_dir):
+            os.mkdir(ss_dir)
+        window.save_window_screenshot_to_disk(filename)
     elif event == "-PROFILE-":
         filename = filename_to_savename(values["-PROFILE-"])
         load_timetable(filename)

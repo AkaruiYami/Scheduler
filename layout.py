@@ -45,6 +45,7 @@ def create_main_layout(save_files, timetable):
             sg.Button("Add", key="-ADD_BUTTON-", size=10),
             sg.Button("Save", key="-SAVE_BUTTON-", size=10),
             sg.Button("D", key="-DELETE_BUTTON-", button_color="#fe0232", size=3),
+            sg.Button("SS", key="-SS_BUTTON-", button_color="#02fe32", size=3),
         ],
     ]
     timetable_layout = create_timetable_layout(timetable)
