@@ -1,4 +1,5 @@
 Todo:
+[] Reopen previous closed tab
 [] Implement ability to manage timetable scheme:
 	[] Add/remove column
 	[] Add/remove row
