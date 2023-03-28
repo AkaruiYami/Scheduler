@@ -1,4 +1,5 @@
 Todo:
+[/] Add 'New Timetable' in profile drop down menu
 [] Reopen previous closed tab
 [] Implement ability to manage timetable scheme:
 	[] Add/remove column

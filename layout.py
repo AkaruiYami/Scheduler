@@ -80,8 +80,6 @@ def create_input_laytout(
     return layout
 
 
-
-
 def _text_input(
     label, size=(None, None), key=None, default="", input_size=(None, None)
 ):
@@ -109,6 +107,7 @@ def _element_selector(
         visible=visible,
     )
     return l, entry
+
 
 def _lkey(label, *args):
     label = label.strip().strip("-")

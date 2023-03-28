@@ -24,6 +24,7 @@ def get_profile(idx=None, with_prefix=True, with_extension=True):
             if with_extension == False:
                 f = f.removesuffix(".pkl")
             saves.append(f)
+    saves.append("(New Timetable)")
     return saves[idx] if idx else saves
 
 
@@ -100,7 +101,7 @@ while True:
             files = get_profile(with_prefix=False, with_extension=False)
             current_profile = window["-PROFILE-"].get()
             files.remove(current_profile)
-            window["-PROFILE-"].update(values=files)
+            window["-PROFILE-"].update(values=files, set_to_index=len(files) - 1)
             timetable.clear()
             remove_profile(current_profile)
     elif event == "-SS_BUTTON-":
@@ -112,8 +113,11 @@ while True:
             os.mkdir(ss_dir)
         window.save_window_screenshot_to_disk(filename)
     elif event == "-PROFILE-":
-        filename = filename_to_savename(values["-PROFILE-"])
-        load_timetable(filename)
+        if values["-PROFILE-"] == "(New Timetable)":
+            timetable.clear()
+        else:
+            filename = filename_to_savename(values["-PROFILE-"])
+            load_timetable(filename)
 
     if str(event).endswith("+EDIT+"):
         event = event.rstrip("+EDIT+")
