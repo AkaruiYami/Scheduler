@@ -75,3 +75,6 @@ This project is open source. Feel free to use and modify as needed.
 ---
 
 **Made with PySimpleGUI** - A simple, cross-platform GUI framework for Python.
+
+> [!Important]
+> As I made aware of, PySimpleGUI is no longer offering hobbyist license. Check [PySimpleGUI Notice](https://pysimplegui.com/#notice)
