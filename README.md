@@ -1,3 +1,5 @@
+[![License: MIT](https://cdn.prod.website-files.com/5e0f1144930a8bc8aace526c/65dd9eb5aaca434fac4f1c34_License-MIT-blue.svg)](/LICENSE)
+
 # Scheduler - Desktop Timetable Manager
 
 A lightweight desktop application for managing weekly timetables and schedules. Built with PySimpleGUI, it provides a visual grid interface for organizing your weekly activities.
