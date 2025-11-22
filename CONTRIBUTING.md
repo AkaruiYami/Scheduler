@@ -1,3 +1,8 @@
+![GitHub contributors](https://img.shields.io/github/contributors/AkaruiYami/Scheduler)
+![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/AkaruiYami/Scheduler)
+![GitHub Issues or Pull Requests](https://img.shields.io/github/issues-pr/AkaruiYami/Scheduler)
+
+
 # Greetings!
 
 First off, thanks for taking the time to contribute! ❤️
