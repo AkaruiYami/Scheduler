@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Scheduler — A lightweight desktop timetable manager built with PySimpleGUI. Visual grid, color-coded entries, and persistent storage.">
+  <title>Scheduler — Desktop Timetable Manager</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <span class="site-title">Scheduler</span>
+      <a class="github-link" href="https://github.com/AkaruiYami/Scheduler" target="_blank" rel="noopener">
+        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+          <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+        </svg>
+        <span>GitHub</span>
+        <span class="star-count"></span>
+      </a>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Hero -->
+    <section class="hero fade-in">
+      <div class="section-inner">
+        <h1>Scheduler</h1>
+        <p class="tagline">Desktop Timetable Manager</p>
+        <p>A lightweight, visual weekly schedule organizer built with PySimpleGUI. Plan your week with color-coded entries, multiple profiles, and one-click screenshot export.</p>
+        <a class="hero-cta" href="#quickstart">Get Started</a>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features" id="features">
+      <div class="section-inner">
+        <span class="section-label">Features</span>
+        <h2 class="section-title">What you can do</h2>
+        <div class="feature-grid">
+          <div class="feature-card fade-in">
+            <div class="feature-icon">&#9638;</div>
+            <h3>Visual Timetable Grid</h3>
+            <p>Weekday-based layout (Mon–Fri) with hourly time slots. See your entire week at a glance.</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon">&#9670;</div>
+            <h3>Color-Coded Entries</h3>
+            <p>Every schedule item gets a unique colour for instant visual recognition and scanning.</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon">&#9776;</div>
+            <h3>Multiple Profiles</h3>
+            <p>Create and switch between different timetable profiles. Save and load them at any time.</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon">&#9998;</div>
+            <h3>Right-Click Editing</h3>
+            <p>Quickly edit or delete any existing entry with a right-click — no menu hunting required.</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon">&#128247;</div>
+            <h3>Screenshot Export</h3>
+            <p>Export your timetable as a PNG image with one click. Perfect for sharing or printing.</p>
+          </div>
+          <div class="feature-card fade-in">
+            <div class="feature-icon">&#128190;</div>
+            <h3>Persistent Storage</h3>
+            <p>All timetables are saved locally to your machine and persist between sessions automatically.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Screenshot -->
+    <section class="screenshot" id="screenshot">
+      <div class="section-inner">
+        <span class="section-label">Preview</span>
+        <h2 class="section-title">See it in action</h2>
+        <figure class="fade-in">
+          <img src="img/screenshot.png" alt="Scheduler application window showing a weekly timetable with color-coded entries">
+          <figcaption>The Scheduler window — a weekly grid with colour-coded schedule entries.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Quick Start -->
+    <section class="quickstart" id="quickstart">
+      <div class="section-inner">
+        <span class="section-label">Quick Start</span>
+        <h2 class="section-title">Get up and running</h2>
+        <div class="quickstart-grid">
+          <div class="fade-in">
+            <h3>Installation</h3>
+            <div class="code-block">pip install PySimpleGUI
+python main.py</div>
+          </div>
+          <div class="fade-in">
+            <h3>First Use</h3>
+            <ol>
+              <li>Launch the app — you'll see an empty Mon–Fri, 7AM–6PM grid.</li>
+              <li>Select "(New Timetable)" from the dropdown.</li>
+              <li>Click <strong>Add</strong> to create your first schedule entry.</li>
+              <li>Fill in the title, description, day, time, and duration.</li>
+              <li>Click <strong>Save</strong> and give your timetable a name.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>MIT License</span>
+      <span>Copyright &copy; 2025 <a href="https://github.com/AkaruiYami">AkaruiYami Code</a></span>
+      <span>Built with <a href="https://pysimplegui.com">PySimpleGUI</a></span>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
